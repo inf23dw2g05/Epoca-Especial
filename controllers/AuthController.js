@@ -4,24 +4,26 @@ const axios = require("axios");
 
 // Serve login page
 const login = (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "/public/login.html"));
+  res.sendFile(path.join(__dirname, "..", "/public/login.html"));
+  // Path.join resets when an absolute path segment is used. Using
+  // '/public/login.html' would resolve to '/public/login.html' which is not
+  // within the project. Join path segments without leading slashes so the
+  // resulting path correctly points to the file inside our project.
+  res.sendFile(path.join(__dirname, "..", "public", "login.html"));
 };
 
 // Logout user
 const logout = (req, res) => {
-  req.logout((err) => {
-      if (err) {
-          console.error('Logout error:', err);
-          return res.status(500).send('Logout failed');
-      }
-      res.redirect('/'); // Redireciona para a página inicial ou de login
-  });
+  req.logout();
+  res.sendFile(path.join(__dirname, "..", "/public/login.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "login.html"));
 };
 
 
 // Serve protected page
 const protected = (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "/public/protected.html"));
+  res.sendFile(path.join(__dirname, "..", "/public/protected.html"));
+  res.sendFile(path.join(__dirname, "..", "public", "protected.html"));
 };
 
 // GitHub authentication
